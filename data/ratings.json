@@ -1,0 +1,320 @@
+[
+  {
+    "id": "1770349960396",
+    "timestamp": "2026-02-06T03:52:40.373Z",
+    "ratings": [
+      {
+        "activity": "Bath / shower",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Listening to music",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Talking to friends",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Watching a movie",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Exercise",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Journaling",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Drawing or doodling",
+        "rating": -1,
+        "note": null
+      },
+      {
+        "activity": "Walking outside",
+        "rating": -1,
+        "note": null
+      },
+      {
+        "activity": "Meditation",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Cooking or baking",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Shopping for clothes",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Massage",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Looking at old photos",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Writing a letter",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "Playing games",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "Photography",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "Going to the beach",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "Riding a bike",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "Watching TV series",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "Drinking coffee or tea",
+        "rating": 1,
+        "note": null
+      }
+    ]
+  },
+  {
+    "id": "1770351103492",
+    "timestamp": "2026-02-06T04:11:43.482Z",
+    "ratings": [
+      {
+        "activity": "泡个热水澡",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "听音乐",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "和朋友聊天",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "看电影",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "运动",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "写日记",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "画画或涂鸦",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "户外散步",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "冥想",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "做饭或烘焙",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "买衣服逛街",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "按摩",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "看老照片",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "写信",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "玩游戏",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "摄影",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "去海滩",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "骑自行车",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "看电视剧",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "喝咖啡或茶",
+        "rating": 0,
+        "note": null
+      }
+    ]
+  },
+  {
+    "id": "1770364834140",
+    "timestamp": "2026-02-06T08:00:34.125Z",
+    "ratings": [
+      {
+        "activity": "泡个热水澡",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "听音乐",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "和朋友聊天",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "看电影",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "运动",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "写日记",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "画画或涂鸦",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "户外散步",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "冥想",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "做饭或烘焙",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "买衣服逛街",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "按摩",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "看老照片",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "写信",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "玩游戏",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "摄影",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "去海滩",
+        "rating": 0,
+        "note": null
+      },
+      {
+        "activity": "骑自行车",
+        "rating": 2,
+        "note": null
+      },
+      {
+        "activity": "看电视剧",
+        "rating": 1,
+        "note": null
+      },
+      {
+        "activity": "喝咖啡或茶",
+        "rating": 1,
+        "note": null
+      }
+    ]
+  }
+]
