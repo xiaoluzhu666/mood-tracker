@@ -1,0 +1,324 @@
+import React, { useState, useEffect } from 'react';
+import activities from './activities.json';
+import './App.css';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
+const RATING_OPTIONS = [
+  { value: -2, label: 'Hate', emoji: '😫', color: '#e74c3c' },
+  { value: -1, label: 'Dislike', emoji: '😕', color: '#e67e22' },
+  { value: 0, label: 'Neutral', emoji: '😐', color: '#95a5a6' },
+  { value: 1, label: 'Like', emoji: '🙂', color: '#3498db' },
+  { value: 2, label: 'Love', emoji: '😍', color: '#27ae60' }
+];
+
+function App() {
+  const [ratings, setRatings] = useState({});
+  const [notes, setNotes] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [analysis, setAnalysis] = useState(null);
+  const [error, setError] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  // Initialize ratings with neutral (0)
+  useEffect(() => {
+    const initialRatings = {};
+    activities.forEach(activity => {
+      initialRatings[activity] = 0;
+    });
+    setRatings(initialRatings);
+  }, []);
+
+  const handleRating = (activity, value) => {
+    setRatings(prev => ({ ...prev, [activity]: value }));
+  };
+
+  const handleNote = (activity, value) => {
+    setNotes(prev => ({ ...prev, [activity]: value }));
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError(null);
+
+    const ratingsArray = Object.keys(ratings).map(activity => ({
+      activity,
+      rating: ratings[activity],
+      note: notes[activity] || null
+    }));
+
+    try {
+      const response = await fetch(`${API_URL}/api/ratings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ratings: ratingsArray,
+          timestamp: new Date().toISOString()
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit ratings');
+      }
+
+      const data = await response.json();
+      setAnalysis(data.analysis);
+      setSubmitted(true);
+    } catch (err) {
+      setError('Something went wrong. Please make sure the backend server is running.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    const initialRatings = {};
+    activities.forEach(activity => {
+      initialRatings[activity] = 0;
+    });
+    setRatings(initialRatings);
+    setNotes({});
+    setAnalysis(null);
+    setSubmitted(false);
+    setError(null);
+  };
+
+  const getRatingButtonStyle = (activity, value) => {
+    const isSelected = ratings[activity] === value;
+    const option = RATING_OPTIONS.find(o => o.value === value);
+
+    return {
+      backgroundColor: isSelected ? option.color : '#f8f9fa',
+      color: isSelected ? 'white' : '#333',
+      border: `2px solid ${option.color}`,
+      transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+    };
+  };
+
+  if (submitted && analysis) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <h1>Your Emotional Analysis</h1>
+          <p className="subtitle">Personalized insights based on your activity ratings</p>
+        </header>
+
+        <main className="analysis-container">
+          {/* Overall Tone */}
+          <section className="analysis-section tone-section">
+            <h2>🎭 Overall Tone</h2>
+            <div className="tone-badge">{analysis.overall_tone?.replace(/_/g, ' ')}</div>
+            <p className="tone-description">{analysis.overall_tone_description}</p>
+          </section>
+
+          {/* Boosters */}
+          {analysis.boosters && analysis.boosters.length > 0 && (
+            <section className="analysis-section boosters-section">
+              <h2>⚡ Energy Boosters</h2>
+              <p className="section-hint">Activities that lift your mood</p>
+              <div className="activity-list">
+                {analysis.boosters.map((booster, idx) => (
+                  <div key={idx} className="activity-card booster">
+                    <div className="activity-name">{booster.activity}</div>
+                    <div className="activity-rating">
+                      {RATING_OPTIONS.find(o => o.value === booster.rating)?.emoji}
+                      <span>{booster.rating > 0 ? '+' : ''}{booster.rating}</span>
+                    </div>
+                    {booster.note && <div className="activity-note">{booster.note}</div>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Drainers */}
+          {analysis.drainers && analysis.drainers.length > 0 && (
+            <section className="analysis-section drainers-section">
+              <h2>🔋 Energy Drainers</h2>
+              <p className="section-hint">Activities to be mindful of</p>
+              <div className="activity-list">
+                {analysis.drainers.map((drainer, idx) => (
+                  <div key={idx} className="activity-card drainer">
+                    <div className="activity-name">{drainer.activity}</div>
+                    <div className="activity-rating">
+                      {RATING_OPTIONS.find(o => o.value === drainer.rating)?.emoji}
+                      <span>{drainer.rating}</span>
+                    </div>
+                    {drainer.note && <div className="activity-note">{drainer.note}</div>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* AR/VR Recommendations */}
+          {analysis.ar_vr_recommendations && analysis.ar_vr_recommendations.length > 0 && (
+            <section className="analysis-section vr-section">
+              <h2>🥽 Immersive Wellness Experiences</h2>
+              <p className="section-hint">AR/VR experiences designed for your emotional regulation</p>
+              <div className="vr-list">
+                {analysis.ar_vr_recommendations.map((rec, idx) => (
+                  <div key={idx} className="vr-card">
+                    <div className="vr-header">
+                      <h3>{rec.title}</h3>
+                      <span className="vr-duration">{rec.duration_minutes} min</span>
+                    </div>
+                    <p className="vr-description">{rec.description}</p>
+                    <div className="vr-script">
+                      <h4>Guided Script</h4>
+                      <p>{rec.script}</p>
+                    </div>
+                    <div className="vr-elements">
+                      <div className="vr-visual">
+                        <span className="element-label">Visual:</span>
+                        {rec.visual_elements?.map((el, i) => (
+                          <span key={i} className="element-tag">{el}</span>
+                        ))}
+                      </div>
+                      <div className="vr-audio">
+                        <span className="element-label">Audio:</span>
+                        {rec.audio_elements?.map((el, i) => (
+                          <span key={i} className="element-tag">{el}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Insights */}
+          {analysis.insights && (
+            <section className="analysis-section insights-section">
+              <h2>💡 Insights</h2>
+              <div className="insights-grid">
+                {analysis.insights.pattern_detected && (
+                  <div className="insight-item">
+                    <span className="insight-label">Pattern:</span>
+                    <span className="insight-value">{analysis.insights.pattern_detected}</span>
+                  </div>
+                )}
+                {analysis.insights.suggestion && (
+                  <div className="insight-item">
+                    <span className="insight-label">Suggestion:</span>
+                    <span className="insight-value">{analysis.insights.suggestion}</span>
+                  </div>
+                )}
+                {analysis.insights.energy_balance && (
+                  <div className="insight-item">
+                    <span className="insight-label">Energy Balance:</span>
+                    <span className="insight-value">{analysis.insights.energy_balance}</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          <button className="submit-btn reset-btn" onClick={handleReset}>
+            Start New Session
+          </button>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="app">
+      <header className="app-header">
+        <h1>Mood Tracker</h1>
+        <p className="subtitle">Rate how each activity affects your mood</p>
+      </header>
+
+      <main className="main-container">
+        {error && (
+          <div className="error-banner">
+            {error}
+          </div>
+        )}
+
+        <div className="legend">
+          <div className="legend-item">
+            <span className="legend-emoji">😫</span>
+            <span>-2 Hate</span>
+          </div>
+          <div className="legend-item">
+            <span className="legend-emoji">😕</span>
+            <span>-1 Dislike</span>
+          </div>
+          <div className="legend-item">
+            <span className="legend-emoji">😐</span>
+            <span>0 Neutral</span>
+          </div>
+          <div className="legend-item">
+            <span className="legend-emoji">🙂</span>
+            <span>+1 Like</span>
+          </div>
+          <div className="legend-item">
+            <span className="legend-emoji">😍</span>
+            <span>+2 Love</span>
+          </div>
+        </div>
+
+        <div className="activities-list">
+          {activities.map((activity) => (
+            <div key={activity} className="activity-row">
+              <div className="activity-info">
+                <span className="activity-name">{activity}</span>
+              </div>
+
+              <div className="rating-buttons">
+                {RATING_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    className="rating-btn"
+                    style={getRatingButtonStyle(activity, option.value)}
+                    onClick={() => handleRating(activity, option.value)}
+                    title={option.label}
+                  >
+                    <span className="btn-emoji">{option.emoji}</span>
+                    <span className="btn-value">{option.value > 0 ? '+' : ''}{option.value}</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="note-section">
+                <input
+                  type="text"
+                  placeholder="Add a note (optional)..."
+                  value={notes[activity] || ''}
+                  onChange={(e) => handleNote(activity, e.target.value)}
+                  className="note-input"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button
+          className="submit-btn"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <span className="spinner"></span>
+              Analyzing...
+            </>
+          ) : (
+            'Get My Emotional Analysis'
+          )}
+        </button>
+      </main>
+
+      <footer className="app-footer">
+        <p>Your data is stored locally on your device</p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
